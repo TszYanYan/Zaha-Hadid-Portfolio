@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zaha Hadid — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Electrolize&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3eeed;
+      --text: #171413;
+      --muted: #625754;
+      --line: rgba(23, 20, 19, 0.18);
+      --soft-line: rgba(23, 20, 19, 0.08);
+      --max: 1180px;
+      --nav-h: 78px;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+      --wave: rgba(58, 40, 34, 0.38);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Electrolize, sans-serif;
+      overflow-x: hidden;
+      letter-spacing: 0.01em;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: none;
+      opacity: 0;
+      z-index: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .site-shell {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(calc(100% - 56px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(243, 238, 237, 0.84);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .topbar-inner {
+      min-height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .brand-logo {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+    }
+
+    .nav a {
+      font-size: 0.96rem;
+      color: rgba(23, 20, 19, 0.82);
+      transition: opacity 220ms ease, transform 220ms ease;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 1px;
+      background: var(--text);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 240ms ease;
+    }
+
+    .nav a:hover::after,
+    .nav a.active::after { transform: scaleX(1); }
+
+    .nav a:hover { transform: translateY(-1px); }
+
+    .hero {
+      padding: 72px 0 120px;
+      min-height: calc(100vh - var(--nav-h));
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 2.15fr 0.66fr 1.4fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .hero-main {
+      aspect-ratio: 1.52 / 1.02;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main img {
+      transform: scale(1.06);
+      animation: heroZoom 4.8s cubic-bezier(.2,.8,.2,1) forwards;
+      will-change: transform;
+    }
+
+    .hero-center-stack,
+    .hero-right-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-center-stack { grid-template-rows: repeat(3, 1fr); margin-top: 64px; }
+    .hero-right-stack { grid-template-rows: 1fr 1fr; }
+
+    .hero-center-stack .image-frame,
+    .hero-right-stack .image-frame {
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 300ms ease, filter 300ms ease;
+    }
+
+    .hero-center-stack .image-frame:nth-child(1) { aspect-ratio: 0.96 / 0.72; }
+    .hero-center-stack .image-frame:nth-child(2) { aspect-ratio: 0.96 / 0.72; }
+    .hero-center-stack .image-frame:nth-child(3) { aspect-ratio: 0.96 / 0.72; }
+    .hero-right-stack .image-frame { aspect-ratio: 1.68 / 0.84; }
+
+    .hero-copy {
+      padding-top: 36px;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: 'Rubik Glitch', system-ui;
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-tagline {
+      margin: 10px 0 0;
+      font-size: 0.98rem;
+      color: rgba(23, 20, 19, 0.9);
+    }
+
+    .wave {
+      height: 150px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wave::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.28) 50%, transparent 100%);
+      transform: translateX(-120%);
+      animation: waveShimmer 5.8s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.55;
+    }
+
+    .wave svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .wave-back {
+      opacity: 0.28;
+      animation: waveFloatBack 8s ease-in-out infinite;
+    }
+
+    .wave-front {
+      animation: drawLine 2.8s cubic-bezier(.2,.8,.2,1) forwards, waveFloatFront 8s ease-in-out infinite 2.8s;
+      transform-origin: center;
+    }
+
+    .section {
+      padding: 32px 0 72px;
+    }
+
+    .section-heading {
+      margin: 0 0 36px;
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .projects-editorial {
+      display: grid;
+      gap: 84px;
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr 1.16fr;
+      gap: 52px;
+      align-items: start;
+    }
+
+    .project-row.reverse {
+      grid-template-columns: 1.16fr 1fr;
+    }
+
+    .project-row.reverse .project-copy { order: 2; }
+    .project-row.reverse .project-image { order: 1; }
+
+    .project-image {
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transform: translateY(0);
+      transition: transform 300ms ease, filter 300ms ease;
+      position: relative;
+    }
+
+    .project-image img {
+      transition: transform 500ms cubic-bezier(.2,.8,.2,1), filter 300ms ease;
+      will-change: transform;
+    }
+
+    .project-row:hover .project-image img {
+      transform: scale(1.045) translateX(4px);
+    }
+
+    .project-row.reverse:hover .project-image img {
+      transform: scale(1.045) translateX(-4px);
+    }
+
+    .project-copy {
+      padding-top: 2px;
+      max-width: 300px;
+      transition: transform 300ms ease, opacity 300ms ease;
+    }
+
+    .project-row:hover .project-copy {
+      transform: translateY(-2px);
+    }
+
+    .project-title {
+      margin: 0 0 4px;
+      font-family: 'Rubik Glitch', system-ui;
+      font-size: 1.5rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .project-meta {
+      font-size: 0.88rem;
+      color: rgba(23, 20, 19, 0.54);
+      margin-bottom: 34px;
+    }
+
+    .project-desc {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.4;
+      max-width: 27ch;
+      color: rgba(23, 20, 19, 0.88);
+    }
+
+    .philosophy-wrap {
+      display: grid;
+      gap: 112px;
+    }
+
+    .philo-row {
+      display: grid;
+      grid-template-columns: 1fr 0.92fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .philo-row.reverse {
+      grid-template-columns: 0.92fr 1fr;
+    }
+
+    .philo-row.reverse .philo-copy { order: 1; }
+    .philo-row.reverse .philo-image { order: 2; }
+
+    .philo-image {
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 300ms ease, filter 300ms ease;
+    }
+
+    .philo-row:nth-child(1) .philo-image {
+      width: min(100%, 480px);
+      aspect-ratio: 0.82 / 1.06;
+    }
+
+    .philo-row:nth-child(2) .philo-image {
+      justify-self: end;
+      width: min(100%, 500px);
+      aspect-ratio: 0.82 / 1.08;
+    }
+
+    .philo-copy {
+      max-width: 360px;
+    }
+
+    .philo-title {
+      margin: 0 0 16px;
+      font-family: 'Rubik Glitch', system-ui;
+      font-size: 1.52rem;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .philo-desc {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.55;
+      color: rgba(23, 20, 19, 0.88);
+    }
+
+    .about-section {
+      padding-top: 8px;
+      padding-bottom: 28px;
+    }
+
+    .about-shell {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 96px;
+      align-items: start;
+      margin-top: 10px;
+    }
+
+    .about-column-left {
+      display: grid;
+      gap: 34px;
+      align-content: start;
+    }
+
+    .about-portrait-wrap {
+      position: relative;
+      width: min(100%, 310px);
+    }
+
+    .about-portrait-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 16px -16px -16px 16px;
+      border: 1px solid rgba(23,20,19,0.12);
+      pointer-events: none;
+    }
+
+    .about-portrait {
+      width: 100%;
+      aspect-ratio: 0.78 / 1;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      filter: grayscale(100%);
+      transition: transform 300ms ease, filter 300ms ease;
+    }
+
+    .about-intro-kicker {
+      margin: 0 0 10px;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(23,20,19,0.48);
+    }
+
+    .about-name {
+      margin: 0 0 18px;
+      font-family: 'Rubik Glitch', system-ui;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      line-height: 0.95;
+    }
+
+    .about-lead {
+      margin: 0;
+      font-size: 1.06rem;
+      line-height: 1.72;
+      max-width: 43ch;
+      color: rgba(23,20,19,0.9);
+    }
+
+    .about-column-right {
+      display: grid;
+      gap: 40px;
+      align-content: start;
+    }
+
+    .about-topline {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(23,20,19,0.22), rgba(23,20,19,0.05));
+    }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .about-card {
+      min-height: 220px;
+      padding: 26px 24px 24px;
+      background: rgba(255,255,255,0.26);
+      border: 1px solid rgba(23,20,19,0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.04);
+    }
+
+    .mini-title {
+      margin: 0 0 18px;
+      font-size: 0.98rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mini-copy,
+    .mini-list {
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.72;
+      color: rgba(23, 20, 19, 0.88);
+    }
+
+    .mini-list {
+      padding-left: 1.1rem;
+    }
+
+    .timeline-block {
+      display: grid;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .timeline-label {
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(23,20,19,0.48);
+    }
+
+    .timeline {
+      position: relative;
+      min-height: 260px;
+      width: 92%;
+      overflow: hidden;
+      border-top: 1px solid rgba(23,20,19,0.08);
+      padding-top: 18px;
+      margin-top: 6px;
+    }
+
+    .timeline svg {
+      width: 100%;
+      height: 190px;
+      display: block;
+    }
+
+    .timeline-path {
+      stroke-dasharray: 1700;
+      stroke-dashoffset: 1700;
+      animation: drawLine 2.6s cubic-bezier(.2,.8,.2,1) forwards;
+      animation-play-state: paused;
+    }
+
+    .timeline.visible .timeline-path {
+      animation-play-state: running;
+    }
+
+    .award {
+      position: absolute;
+      max-width: 180px;
+      font-size: 0.95rem;
+      color: rgba(23, 20, 19, 0.88);
+      line-height: 1.5;
+    }
+
+    .award strong {
+      display: block;
+      font-weight: 400;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(23,20,19,0.48);
+      margin-bottom: 4px;
+    }
+
+    .award-1 { left: 2%; top: 45px; }
+    .award-2 { left: 39%; top: 44px; }
+    .award-3 { right: 2%; top: 6px; }
+
+    .timeline-number {
+      position: absolute;
+      font-size: clamp(3rem, 7vw, 6rem);
+      color: rgba(106, 74, 74, 0.045);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .tn1 { left: 24%; top: 132px; }
+    .tn2 { left: 60%; top: 96px; }
+    .tn3 { right: 3%; top: 52px; }
+
+    .footer-wave {
+      height: 140px;
+      margin-top: 26px;
+    }
+
+    .footer {
+      padding: 96px 0 40px;
+      text-align: center;
+    }
+
+    .footer-address {
+      font-size: clamp(1.12rem, 1.7vw, 1.7rem);
+      line-height: 1.08;
+      text-transform: uppercase;
+      max-width: 420px;
+      margin: 0 auto 40px;
+    }
+
+    .footer-social svg {
+      position: relative;
+      top: 2px;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 26px;
+      margin-bottom: 20px;
+    }
+
+    .socials a {
+      font-size: 2rem;
+      line-height: 1;
+      opacity: 0.82;
+      transition: transform 220ms ease, opacity 220ms ease;
+    }
+
+    .socials a:hover {
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+
+    .footer-note {
+      font-size: 0.8rem;
+      color: rgba(23, 20, 19, 0.54);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .wave path {
+      stroke-dasharray: 1700;
+      stroke-dashoffset: 1700;
+      animation: drawLine 2.8s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    @keyframes heroZoom {
+      from { transform: scale(1.06); }
+      to { transform: scale(1); }
+    }
+
+    @keyframes drawLine {
+      from { stroke-dashoffset: 1700; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes waveFloatFront {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(5px); }
+    }
+
+    @keyframes waveFloatBack {
+      0%, 100% { transform: translateY(0px) scaleX(1); }
+      50% { transform: translateY(-4px) scaleX(1.006); }
+    }
+
+    @keyframes waveShimmer {
+      0% { transform: translateX(-120%); opacity: 0; }
+      18% { opacity: 0.42; }
+      50% { opacity: 0.65; }
+      82% { opacity: 0.38; }
+      100% { transform: translateX(120%); opacity: 0; }
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.22), rgba(255,255,255,0));
+      transform: translate(-50%, -50%);
+      opacity: 0.6;
+      transition: opacity 240ms ease;
+      mix-blend-mode: screen;
+    }
+
+    .image-frame:hover,
+    .project-image:hover,
+    .philo-image:hover,
+    .about-portrait:hover {
+      transform: translateY(-4px);
+      filter: saturate(1.04) contrast(1.02);
+    }
+
+    @media (max-width: 980px) {
+      .container { width: min(calc(100% - 32px), var(--max)); }
+      .nav { gap: 24px; }
+      .hero-grid,
+      .project-row,
+      .project-row.reverse,
+      .philo-row,
+      .philo-row.reverse,
+      .about-shell,
+      .about-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .project-row.reverse .project-image,
+      .project-row.reverse .project-copy,
+      .philo-row.reverse .philo-copy,
+      .philo-row.reverse .philo-image {
+        order: initial;
+      }
+
+      .hero-center-stack { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr; }
+      .hero-right-stack { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
+      .hero-copy { padding-top: 8px; }
+      .project-copy,
+      .philo-copy,
+      .about-lead { max-width: none; }
+      .award-1, .award-2, .award-3, .tn1, .tn2, .tn3 { position: static; }
+      .timeline { min-height: auto; display: grid; gap: 14px; width: 100%; margin-top: 0; }
+      .timeline svg { height: 120px; }
+      .about-shell { gap: 54px; }
+      .about-portrait-wrap { width: min(100%, 320px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .wave path,
+      .timeline-path {
+        stroke-dashoffset: 0 !important;
+      }
+
+      .wave::before {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :root { --nav-h: 66px; }
+      body::before { display: none; }
+      .brand { font-size: 0.86rem; }
+      .nav a { font-size: 0.82rem; }
+      .nav { gap: 14px; }
+      .topbar-inner { align-items: flex-start; flex-direction: column; padding: 12px 0; }
+      .hero-grid { gap: 16px; }
+      .hero-center-stack,
+      .hero-right-stack { gap: 10px; }
+      .section-heading { margin-bottom: 24px; }
+      .projects-editorial { gap: 42px; }
+      .philosophy-wrap { gap: 56px; }
+      .cursor-glow { display: none; }
+      .footer { padding-top: 56px; }
+      .footer-address { font-size: 1rem; }
+      .socials a { font-size: 1.5rem; }
+      .about-card { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#home" class="brand">
+          <img src="images/Zaha Hadid Logo.svg" alt="Zaha Hadid Logo" class="brand-logo">
+        </a>
+        <nav class="nav" id="mainNav">
+          <a href="#projects">Projects</a>
+          <a href="#philosophy">Philosophy</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="container">
+          <div class="hero-grid reveal">
+            <div>
+              <div class="hero-main image-frame">
+                <img src="images/Hero-1.jpeg" alt="Hero image">
+              </div>
+              <div class="hero-copy">
+                <h1 class="hero-title">Zaha Hadid</h1>
+                <p class="hero-tagline">Fluid Architect of the Future</p>
+              </div>
+            </div>
+
+            <div class="hero-center-stack">
+              <div class="image-frame"><img src="images/Hero-2.jpg" alt="Hero stack image 1"></div>
+              <div class="image-frame"><img src="images/Hero-3.jpg" alt="Hero stack image 2"></div>
+              <div class="image-frame"><img src="images/Hero-4.jpg" alt="Hero stack image 3"></div>
+            </div>
+
+            <div class="hero-right-stack">
+              <div class="image-frame"><img src="images/Hero-5.jpg" alt="Hero right image 1"></div>
+              <div class="image-frame"><img src="images/Hero-6.jpg" alt="Hero right image 2"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+          <path class="wave-back" d="M0,112 C188,64 404,30 614,90 C826,150 1048,150 1244,98 C1342,72 1402,54 1440,44" fill="none" stroke="rgba(108, 83, 76, 0.22)" stroke-width="9" />
+          <path class="wave-front" d="M0,112 C188,64 404,30 614,90 C826,150 1048,150 1244,98 C1342,72 1402,54 1440,44" fill="none" stroke="var(--wave)" stroke-width="1.45" />
+        </svg>
+      </div>
+
+      <section class="section" id="projects">
+        <div class="container">
+          <h2 class="section-heading reveal">Projects</h2>
+          <div class="projects-editorial">
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">London Aquatics Centre</h3>
+                <div class="project-meta">London, United Kingdom · 2012</div>
+                <p class="project-desc">Designed for the 2012 Olympics, the centre features a sweeping roof inspired by the fluid motion of water.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-1.jpg" alt="London Aquatics Centre"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Broad Art Museum</h3>
+                <div class="project-meta">East Lansing, USA · 2012</div>
+                <p class="project-desc">A sharply folded façade defines this contemporary art museum, challenging conventional spatial and visual boundaries.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-2.jpg" alt="Broad Art Museum"></div>
+            </article>
+
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">MAXXI Museum</h3>
+                <div class="project-meta">Rome, Italy · 2010</div>
+                <p class="project-desc">A network of flowing concrete forms creates dynamic circulation paths within Italy’s national museum of contemporary art.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-3.jpg" alt="MAXXI Museum"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Guangzhou Opera House</h3>
+                <div class="project-meta">Guangzhou, China · 2010</div>
+                <p class="project-desc">Inspired by river-worn stones, the design consists of two fluid volumes that integrate architecture with the surrounding landscape.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-4.jpg" alt="Guangzhou Opera House"></div>
+            </article>
+
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Galaxy SOHO</h3>
+                <div class="project-meta">Beijing, China · 2012</div>
+                <p class="project-desc">A complex of continuous curvilinear volumes connected by bridges, redefining large-scale office architecture.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-5.jpg" alt="Galaxy SOHO"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Riverside Museum</h3>
+                <div class="project-meta">Glasgow, Scotland, UK · 2011</div>
+                <p class="project-desc">A zigzagging roof form creates a dramatic interior space, housing Scotland’s museum of transport and travel.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-6.jpg" alt="Riverside Museum"></div>
+            </article>
+
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Dongdaemun Design Plaza</h3>
+                <div class="project-meta">Seoul, South Korea · 2014</div>
+                <p class="project-desc">A landmark cultural hub defined by seamless, flowing surfaces and advanced digital fabrication techniques.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-7.jpg" alt="Dongdaemun Design Plaza"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Heydar Aliyev Centre</h3>
+                <div class="project-meta">Baku, Azerbaijan · 2013</div>
+                <p class="project-desc">A continuous fluid form eliminates traditional boundaries between structure and surface, creating a striking civic space.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-8.jpg" alt="Heydar Aliyev Centre"></div>
+            </article>
+
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Serpentine Pavilion</h3>
+                <div class="project-meta">London, United Kingdom · 2013</div>
+                <p class="project-desc">An experimental lightweight structure composed of intersecting surfaces, exploring new spatial and structural possibilities.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-9.jpg" alt="Serpentine Pavilion"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Jockey Innovation Tower</h3>
+                <div class="project-meta">Hong Kong · 2014</div>
+                <p class="project-desc">A dynamic vertical campus building with fluid circulation spaces that encourage collaboration and innovation.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-10.jpg" alt="Jockey Innovation Tower"></div>
+            </article>
+
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Wangjing SOHO</h3>
+                <div class="project-meta">Beijing, China · 2014</div>
+                <p class="project-desc">Three sculptural towers with smooth aerodynamic forms create a futuristic urban office complex.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-11.jpg" alt="Wangjing SOHO"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Sky SOHO</h3>
+                <div class="project-meta">Shanghai, China · 2014</div>
+                <p class="project-desc">A series of interconnected volumes linked by bridges, forming a continuous spatial network for office environments.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-12.jpg" alt="Sky SOHO"></div>
+            </article>
+
+            <article class="project-row reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Nanjing Cultural Centre</h3>
+                <div class="project-meta">Nanjing, China · 2015</div>
+                <p class="project-desc">Twin towers combine cultural, conference, and hospitality functions within a bold, contemporary skyline presence.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-13.jpg" alt="Nanjing Cultural Centre"></div>
+            </article>
+
+            <article class="project-row reverse reveal">
+              <div class="project-copy">
+                <h3 class="project-title">Port House</h3>
+                <div class="project-meta">Antwerp, Belgium · 2016</div>
+                <p class="project-desc">A crystalline glass extension sits atop a historic structure, merging heritage with futuristic design.</p>
+              </div>
+              <div class="project-image"><img src="images/Project-14.jpg" alt="Port House"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="philosophy">
+        <div class="container">
+          <h2 class="section-heading reveal">Philosophy of Form</h2>
+          <div class="philosophy-wrap">
+            <article class="philo-row reveal">
+              <div class="philo-image"><img src="images/Philosophy-1.jpeg" alt="Fluid Geometry"></div>
+              <div class="philo-copy">
+                <h3 class="philo-title">Fluid Geometry</h3>
+                <p class="philo-desc">Zaha Hadid’s architecture is defined by continuous, flowing forms that reject rigid geometry. Surfaces appear to move seamlessly, creating spaces that feel dynamic and in motion.</p>
+              </div>
+            </article>
+
+            <article class="philo-row reverse reveal">
+              <div class="philo-copy">
+                <h3 class="philo-title">Parametric Design</h3>
+                <p class="philo-desc">Through computational design, Hadid developed complex structures driven by algorithms and data. This approach enables precise control over form, structure, and spatial relationships.</p>
+              </div>
+              <div class="philo-image"><img src="images/Philosophy-2.jpg" alt="Parametric Design"></div>
+            </article>
+
+            <article class="philo-row reveal">
+              <div class="philo-image"><img src="images/Philosophy-3.jpg" alt="Futuristic Architecture"></div>
+              <div class="philo-copy">
+                <h3 class="philo-title">Futuristic Architecture</h3>
+                <p class="philo-desc">Rather than referencing the past, Hadid projected architecture forward. Her work imagines buildings as cultural accelerators—bold, experimental, and deeply tied to future urban life.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about-section" id="about">
+        <div class="container">
+          <h2 class="section-heading reveal">About</h2>
+          <div class="about-shell reveal">
+            <div class="about-column-left">
+              <div class="about-portrait-wrap">
+                <div class="about-portrait"><img src="images/About-zaha.jpg" alt="Portrait of Zaha Hadid"></div>
+              </div>
+              <div>
+                <h3 class="about-name">Zaha Hadid</h3>
+                <p class="about-lead">Zaha Hadid (1950–2016) was an Iraqi-British architect whose work transformed contemporary architecture through fluid geometry, radical spatial thinking, and a future-facing design language. Trained first in mathematics and later at the Architectural Association in London, she developed a visual vocabulary that challenged conventional structure and redefined how buildings could move, flow, and occupy space.</p>
+              </div>
+            </div>
+
+            <div class="about-column-right">
+              <div class="about-topline"></div>
+              <div class="about-cards">
+                <article class="about-card">
+                  <h3 class="mini-title">Career Highlights</h3>
+                  <ul class="mini-list">
+                    <li>Founded Zaha Hadid Architects in 1980</li>
+                    <li>Completed major cultural, civic, and mixed-use projects worldwide</li>
+                    <li>Advanced computational and parametric approaches in architecture</li>
+                    <li>Taught and influenced generations of architects internationally</li>
+                  </ul>
+                </article>
+
+                <article class="about-card">
+                  <h3 class="mini-title">Awards & Legacy</h3>
+                  <p class="mini-copy">Her legacy continues through a body of work that merged experimentation with precision. Zaha Hadid remains a defining figure in contemporary architecture, and her studio continues to shape global design discourse through innovation, fluidity, and ambition.</p>
+                </article>
+              </div>
+
+              <div class="timeline-block">
+                <div class="timeline-label">Selected Recognition</div>
+                <div class="timeline reveal">
+                  <svg viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="12" result="blur"/>
+                        <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.92  0 1 0 0 0.85  0 0 1 0 0.90  0 0 0 0.18 0"/>
+                      </filter>
+                    </defs>
+                    <path d="M14,190 C120,238 198,246 304,188 C406,132 500,138 592,160 C674,182 732,126 812,72 C898,18 980,26 1120,72" fill="none" stroke="rgba(233, 208, 218, 0.58)" stroke-width="18" filter="url(#softGlow)" opacity="0.62" />
+                    <path class="timeline-path" d="M14,190 C120,238 198,246 304,188 C406,132 500,138 592,160 C674,182 732,126 812,72 C898,18 980,26 1120,72" fill="none" stroke="rgba(85, 60, 57, 0.82)" stroke-width="3" />
+                    <circle cx="170" cy="222" r="9" fill="rgba(190, 180, 180, 0.92)" />
+                    <circle cx="662" cy="170" r="9" fill="rgba(190, 180, 180, 0.92)" />
+                    <circle cx="1036" cy="72" r="9" fill="rgba(190, 180, 180, 0.92)" />
+                  </svg>
+                  <div class="award award-1"><strong>2004</strong>Pritzker Architecture Prize</div>
+                  <div class="award award-2"><strong>2010 · 2011</strong>Stirling Prize</div>
+                  <div class="award award-3"><strong>2016</strong>Royal Gold Medal</div>
+                  <div class="timeline-number tn1">1</div>
+                  <div class="timeline-number tn2">2</div>
+                  <div class="timeline-number tn3">3</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-wave wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 180" preserveAspectRatio="none">
+          <path class="wave-back" d="M0,114 C194,82 366,82 570,100 C772,118 956,142 1152,128 C1290,118 1384,116 1440,110" fill="none" stroke="rgba(108, 83, 76, 0.2)" stroke-width="8" />
+          <path class="wave-front" d="M0,114 C194,82 366,82 570,100 C772,118 956,142 1152,128 C1290,118 1384,116 1440,110" fill="none" stroke="var(--wave)" stroke-width="1.35" />
+        </svg>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container reveal">
+        <p class="footer-address">Zaha Hadid Architects<br>101 Goswell Road<br>London EC1V 7EZ<br>United Kingdom<br>+44 20 7253 5147</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Instagram">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.5" cy="6.5" r="1"></circle>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    });
+    const revealItems = document.querySelectorAll('.reveal');
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const navLinks = [...document.querySelectorAll('.nav a')];
+    const cursorGlow = document.getElementById('cursorGlow');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    revealItems.forEach(item => observer.observe(item));
+    document.querySelectorAll('.timeline').forEach(item => observer.observe(item));
+
+    const setActiveLink = () => {
+      const y = window.scrollY + 120;
+      let current = sections[0]?.id || 'home';
+      sections.forEach(section => {
+        if (y >= section.offsetTop) current = section.id;
+      });
+      navLinks.forEach(link => {
+        const active = link.getAttribute('href') === `#${current}`;
+        link.classList.toggle('active', active);
+      });
+    };
+
+    setActiveLink();
+    window.addEventListener('scroll', setActiveLink, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!cursorGlow) return;
+      cursorGlow.style.left = `${e.clientX}px`;
+      cursorGlow.style.top = `${e.clientY}px`;
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+      if (cursorGlow) cursorGlow.style.opacity = '0';
+    });
+
+    window.addEventListener('mouseenter', () => {
+      if (cursorGlow) cursorGlow.style.opacity = '0.6';
+    });
+  </script>
+</body>
+</html>
